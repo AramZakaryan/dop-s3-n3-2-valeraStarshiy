@@ -21,4 +21,4 @@ export type RootStoreType = ReturnType<typeof rootReducers>
 
 //@ts-ignore
 window.store = store;
-export type RootStateOrAny = AnyIfEmpty<FixTypeLater>;
+export type RootStateOrAny = AnyIfEmpty<RootStoreType>;

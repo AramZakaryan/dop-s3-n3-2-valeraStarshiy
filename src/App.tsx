@@ -12,47 +12,45 @@ const DELAY = 500;
 
 export const App = () => {
 
-  const dispatch = useDispatch();
-  const users = useSelector(selectUsers);
+    const users = useSelector(selectUsers);
 
-  const usersCount = useSelector(selectUsersCount);
+    const usersCount = useSelector(selectUsersCount);
 
-  const [isAddNewUser, setIsAddNewUser] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    let timeoutId: SetTimeoutType = setTimeout((): void => {
-      setIsAddNewUser(false);
-    }, DELAY);
+    const [isAddNewUser, setIsAddNewUser] = useState<boolean>(false);
 
-    return () => clearTimeout(timeoutId);
-  }, [users.length]);
+    useEffect(() => {
+        let timeoutId: SetTimeoutType = setTimeout((): void => {
+            setIsAddNewUser(false);
+        }, DELAY);
 
-  useEffect(() => {
-    if (users.length > 0 && isAddNewUser) {
-      dispatch(plusUserCount());
-    }
-  }, [dispatch, users.length, isAddNewUser]);
+        return () => clearTimeout(timeoutId);
+    }, [users.length]);
 
-  const handleClick = useCallback((): void => {
-    dispatch(createUser({id: v1(), name: generateRandomName()}));
+    useEffect(() => {
+        if (users.length > 0 && isAddNewUser) {
+            dispatch(plusUserCount());
+        }
+    }, [dispatch, users.length, isAddNewUser]);
 
-    setIsAddNewUser(true);
-  }, [dispatch]);
+    const handleClick = useCallback((): void => {
+        dispatch(createUser({id: v1(), name: generateRandomName()}));
 
-  return (
-    <Fragment>
+        setIsAddNewUser(true);
+    }, [dispatch]);
 
-      <p>aaa</p>
+    return (
+        <Fragment>
+            <UsersCountValue usersCount={usersCount}/>
 
-      <UsersCountValue usersCount={usersCount} />
+            <CustomButton
+                title="Click Me"
+                isButtonDisabled={isAddNewUser}
+                onClick={handleClick}
+            />
 
-      <CustomButton
-        title="Click Me"
-        isButtonDisabled={isAddNewUser}
-        onClick={handleClick}
-      />
-
-      <UsersList users={users} />
-    </Fragment>
-  );
+            <UsersList users={users}/>
+        </Fragment>
+    );
 };
